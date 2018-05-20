@@ -1,0 +1,72 @@
+package Exemplo1;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+/**
+ *
+ * @author Kcer
+ */
+public class NewClass {
+        
+    //ATRIBUTOS DE ENTRADA DE LOCALIZAÇÃO PARA DRAWRECT 
+            public int $x = 40;
+            public int $y = 100;
+    //ATRIBUTOS DE ENTRADA DE LOCALIZAÇÃO PARA DRAWLINE
+            public int x = 50;
+            public int y = 60;
+    //ATRIBUTOS DE ENTRADA DE LOCALIZAÇÃO PARA ARCOS
+            public int _x = 50;
+            public  int _y = 70;
+    //ATRIBUTOS DE ENTRADA DE DADOS PARA COMPARAÇÃO
+             public String $nome;
+             public String $grau;
+             String $pai, $mae, $filho;
+             
+        public void paintComponent(Graphics g){
+            
+            
+            
+       //COMANDOS DE SAIDA DO GRAPHICS     
+            //GERANDO RETANGULO PERFIL
+            g.setColor(Color.blue);
+            g.drawRect((int) $y, (int) $x, 0, 0);
+            
+            //GERANDO CONEXAO LINHAS
+            g.setColor(Color.BLACK);
+            g.drawLine(x, y, 0, 0);
+            
+            //GERANDO CURVAS
+            g.setColor(Color.BLACK);
+            g.drawArc(_x, _y, 0, 0, 0, 0);
+                    
+            }
+    public void condicoes(){
+        if ($grau.equals($pai)){
+            $x +=1;
+            $y +=1;
+            _y +=1;
+            _x +=1;
+            y +=1;
+            x +=1;
+            
+        }else if($grau.equals($mae)){
+            $x +=-1;
+            $y +=-1;
+            _y +=-1;
+            _x +=-1;
+            y +=-1;
+            x +=-1;
+        
+        }else if($grau.equals($filho)){
+            $x +=0;
+            $y +=0;
+            _y +=0;
+            _x +=0;
+            y +=0;
+            x +=0;
+        }
+    
+    }
+    
+}

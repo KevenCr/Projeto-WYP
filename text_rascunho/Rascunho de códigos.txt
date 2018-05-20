@@ -1,0 +1,26 @@
+ PreparedStatement stmt = null;
+
+    public void relation1(Familia f, int id) {
+
+        PreparedStatement stmt = null;
+        System.out.println(id);
+        try {
+            String Familia = f.getFamilia();
+            String sql = ("INSERT INTO familia (familia, id_login)VALUES(" + Familia + "," + id + ")");
+            stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            int gerado = rs.getInt(1);
+//            rs.next();
+//            KeyGerated = rs.getInt(1);
+//            System.out.println(KeyGerated);
+//            f.setId_familia(KeyGerated);
+
+        } catch (SQLException e) {
+            System.out.println("ERROR");
+        }
+
+        // abaixo você obtém o id gerado para a coluna auto-incremento do MySql
+        // e seta este id no objeto Arvore que está sendo adicionado.
+    }

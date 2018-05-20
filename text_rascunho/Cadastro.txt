@@ -1,0 +1,56 @@
+public void ExcluirCliente(int codigo){ 
+        
+        Conexao banco = new Conexao(); 
+        
+        try { Connection ExConn = (Connection) banco.abrirBDConn(); 
+        Statement stmt = (Statement) ExConn.createStatement(); 
+        String sSQL = "DELETE FROM banco.cliente WHERE idCliente = "+codigo+";"; boolean rs = stmt.execute(sSQL); 
+        JOptionPane.showMessageDialog(null,(!rs)? "Dados do cliente excluidos com sucesso.":"Dados do cliente não foram excluidos com sucesso."); 
+        stmt.close(); 
+        banco.fecharBDConn(); 
+        
+        }catch(Exception e){ 
+            JOptionPane.showMessageDialog(null,"Os dados não foram encontrado!!!"); 
+        } 
+
+    } public String AtualizarDados(String nome,String email,String endereco,String telefone,String cidade,String estado, ClienteBin CliBin){ 
+
+        Conexao banco = new Conexao(); 
+        String retorno = "erro"; 
+        int res; 
+
+        try { Connection ExConn = (Connection) banco.abrirBDConn(); 
+        Statement stmt = (Statement) ExConn.createStatement(); 
+        res = stmt.executeUpdate("UPDATE banco.cliente SET nome = '"+nome+"', endereco = '"+endereco+ "',estado = '"+estado+"',cidade = '"+cidade+"', telefone = '"+telefone+ "',email = '"+email+"' WHERE idCliente = "+CliBin.getCodigo()); 
+        if(res==1)JOptionPane.showMessageDialog(null,"Os dados foram atualizados com sucesso!!!"); 
+        stmt.close(); banco.fecharBDConn(); 
+
+        }catch(Exception e){ 
+            JOptionPane.showMessageDialog(null,"Os dados não puderam ser atualizados!!!"); 
+        } 
+        return retorno; 
+
+    } public void BuscarDados(int codigo,ClienteBin CliBin) { 
+        
+        Conexao banco = new Conexao(); 
+        
+        try { Connection ExConn = (Connection) banco.abrirBDConn(); 
+        Statement stmt = (Statement) ExConn.createStatement(); 
+        String sSQL = "SELECT * FROM banco.cliente WHERE idCliente = "+codigo; ResultSet rs = stmt.executeQuery(sSQL); 
+        
+        while(rs.next()) { CliBin.setCodigo(rs.getInt("idCliente")); 
+        
+        CliBin.setNome(rs.getString("nome")); 
+        CliBin.setEndereco(rs.getString("endereco")); 
+        CliBin.setEstado(rs.getString("estado")); 
+        CliBin.setCidade(rs.getString("cidade")); 
+        CliBin.setTelefone(rs.getString("telefone")); 
+        CliBin.setEmail(rs.getString("email")); 
+        } stmt.close(); 
+        banco.fecharBDConn(); 
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Os dados não puderam ser encontrado!!!"); 
+        }
+    }
+}
