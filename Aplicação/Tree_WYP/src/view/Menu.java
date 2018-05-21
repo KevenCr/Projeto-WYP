@@ -78,7 +78,7 @@ public class Menu extends javax.swing.JFrame {
         FamiliaDAO dao = new FamiliaDAO();
         if (dao.abrir((String) jTFamilia.getValueAt(jTFamilia.getSelectedRow(), 0)) ==  true){
             new Arvore().setVisible(true);
-            tree.Relacao();
+            tree.read();
             this.dispose();
         }        
         

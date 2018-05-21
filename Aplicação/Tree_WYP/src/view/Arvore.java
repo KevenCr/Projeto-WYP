@@ -21,6 +21,7 @@ public class Arvore extends javax.swing.JFrame {
      */
     public Arvore() {
         initComponents();
+        JTable();
         
     }
     //////////////////////////////////////////////////////////////////////////// CADASTRANDO NO BANCO
@@ -97,7 +98,7 @@ public class Arvore extends javax.swing.JFrame {
         modelo.setNumRows(0);
         ArvoreDAO dao = new ArvoreDAO();
 
-        for (ArvoreForm form : dao.Relacao()) {
+        for (ArvoreForm form : dao.read()) {
 
             modelo.addRow(new Object[]{
                 dao.getID(),
@@ -266,7 +267,6 @@ public class Arvore extends javax.swing.JFrame {
                 .addGap(44, 44, 44))
         );
 
-        jTArvore.setBackground(new java.awt.Color(204, 204, 204));
         jTArvore.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null}

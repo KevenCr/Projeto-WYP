@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,8 +39,8 @@ public class ArvoreDAO {
 
 //////////////////////////////////////////////////////////////////////////////// ADICIONAR MEMBRO
     public void member(ArvoreForm a) {
-        System.out.println(" NOME  "+ a.getNome1());
-        System.out.println(" SEXO  "+ a.getSex1());
+        System.out.println(" NOME  " + a.getNome1());
+        System.out.println(" SEXO  " + a.getSex1());
         String NOME1 = ("INSERT INTO nome (nome, sexo) VALUE (?,?)");
         String NOME2 = ("INSERT INTO nome (nome, sexo) VALUE (?,?)");
         try {
@@ -57,16 +59,16 @@ public class ArvoreDAO {
             stmt.setString(1, a.getNome2());
             stmt.setString(2, a.getSex2());
             stmt.executeUpdate();
-            
+
             rs = stmt.getGeneratedKeys();
             rs.next();
             id = rs.getInt(1);
             a.setId_nome2(id);
             System.out.println("ID GERADO DO NOME2  " + id);
             ////////////////////////////////////////////////////////////////////
-                String select = a.getGrau();
-                System.out.println("O Grau de Parentesco é  "+ select);
-             switch (select) {
+            String select = a.getGrau();
+            System.out.println("O Grau de Parentesco é  " + select);
+            switch (select) {
                 case "PAI":
                     a.setIdgrau(1);
                     break;
@@ -142,67 +144,44 @@ public class ArvoreDAO {
 
     }
 /////////////////////////////////////////////////////////////////  SELECIONA ARVORE
-    public void readMember2() {
-        ArvoreForm form = new ArvoreForm();
 
-        String member = "SELECT nome, sexo FROM arvore a INNER JOIN nome n "
-                + "ON (id_familia = " + getID() + ") AND n.id_nome = a.id_nome1 "
-                + "WHERE a.id_arvore ORDER BY id_arvore ASC";
+    public List<ArvoreForm> read() {
+
+        List<ArvoreForm> trees = new ArrayList<>();
+
         try {
-            stmt = con.prepareStatement(member);
+            stmt = con.prepareStatement(""
+                    + "SELECT n1.nome AS nome1, n1.sexo AS sexo1,\n"
+                    + "g.grau AS grau, n.nome AS nome2, n.sexo AS sexo2 \n"
+                    + "FROM arvore a \n"
+                    + "JOIN nome n ON n.id_nome = a.id_nome1\n"
+                    + "JOIN grau g ON g.id_grau = a.id_grau\n"
+                    + "JOIN nome n1 ON n1.id_nome = a.id_nome\n"
+                    + "WHERE (a.id_familia = " + getID() + ") \n"
+                    + "ORDER BY a.id_arvore ASC");
             rs = stmt.executeQuery();
+
             while (rs.next()) {
-                form.setNome2(rs.getString("nome"));
-                form.setSex2(rs.getString("sexo"));
+
+                ArvoreForm arvore = new ArvoreForm();
+
+                arvore.setNome1(rs.getString("nome1"));
+                arvore.setSex1(rs.getString("sexo1"));
+                arvore.setGrau(rs.getString("grau"));
+                arvore.setNome2(rs.getString("nome2"));
+                arvore.setSex2(rs.getString("sexo2"));
+
+                trees.add(arvore);
             }
+
         } catch (SQLException ex) {
-            System.out.println("ERROR Line 129");
+            Logger.getLogger(ArvoreDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
         }
 
-    }
-
-    public void readMember() {
-        ArvoreForm form = new ArvoreForm();
-        String member;
-        member = "SELECT nome, sexo, grau FROM arvore a INNER JOIN nome n "
-                + "INNER JOIN grau g ON (a.id_familia = " + getID() + ") AND n.id_nome = a.id_nome "
-                + "AND g.id_grau = a.id_grau WHERE a.id_arvore ORDER BY id_arvore ASC";
-        try {
-            stmt = con.prepareStatement(member);
-            rs = stmt.executeQuery();
-            readMember2();
-            while (rs.next()) {
-                form.setNome1(rs.getString("nome"));
-                form.setSex1(rs.getString("sexo"));
-                form.setGrau(rs.getString("grau"));
-
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error Line 148");
-        }
+        return trees;
 
     }
 
-    public List<ArvoreForm> Relacao() {
-        List<ArvoreForm> pessoas = new ArrayList<>();
-        ArvoreForm form = new ArvoreForm();
-        readMember();
-        getID();
-        form.getNome1();
-        form.getSex1();
-        form.getGrau();
-        form.getNome2();
-        form.getSex2();
-        pessoas.add(form);
-        return pessoas;
-
-    }
 }
-
-/*
-*
-TESTE
-*
- */
-
-       // SELECT * FROM nome n INNER JOIN grau g ON n.id_nome = '6' AND g.id_grau = '3
