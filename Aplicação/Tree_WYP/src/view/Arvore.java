@@ -22,10 +22,9 @@ public class Arvore extends javax.swing.JFrame {
     public Arvore() {
         initComponents();
         JTable();
-        
+
     }
     //////////////////////////////////////////////////////////////////////////// CADASTRANDO NO BANCO
-
 
     ////////////////////////////////////////////////////////////////////////////   Salva no banco
     public void SaveBD() {
@@ -45,7 +44,7 @@ public class Arvore extends javax.swing.JFrame {
             String select2 = (String) cbSex2.getSelectedItem();
             System.out.println(select1 + " SeXO");
             System.out.println(select2 + " SeXO");
-            
+
             switch (select1) {
                 case ("HOMEM"):
                     form.setSex1("HOMEM");
@@ -60,7 +59,7 @@ public class Arvore extends javax.swing.JFrame {
                     form.setSex1("MENINA");
                     break;
                 default:
-                    JOptionPane.showMessageDialog(null,"Selecione um genero para a primeira pessoa");
+                    JOptionPane.showMessageDialog(null, "Selecione um genero para a primeira pessoa");
             }
 
             switch (select2) {
@@ -77,21 +76,22 @@ public class Arvore extends javax.swing.JFrame {
                     form.setSex1("MENINA");
                     break;
                 default:
-                    JOptionPane.showMessageDialog(null,"Selecione um genero para a segunda pessoa");
+                    JOptionPane.showMessageDialog(null, "Selecione um genero para a segunda pessoa");
             }
 
             ///////////////////////////////////////GRAU
             String select = (String) cbParent.getSelectedItem();
             form.setGrau(select);
-            
+
             dao.member(form);
 
         } catch (Exception e) {
             System.out.println("Ocorreu um errinho aqui!");
         }
-        
+
     }
 //////////////////////////////////////////////////////////////////////////////// CONSULTANDO NO BANCO
+
     public void JTable() {
 
         DefaultTableModel modelo = (DefaultTableModel) jTArvore.getModel();
@@ -123,7 +123,6 @@ public class Arvore extends javax.swing.JFrame {
 
         btnExit = new javax.swing.JButton();
         btnVoltar = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -136,6 +135,8 @@ public class Arvore extends javax.swing.JFrame {
         txtNome2 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTArvore = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 153, 153));
@@ -159,10 +160,6 @@ public class Arvore extends javax.swing.JFrame {
                 btnVoltarActionPerformed(evt);
             }
         });
-
-        jButton3.setBackground(new java.awt.Color(255, 255, 255));
-        jButton3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton3.setText("Salvar e Sair");
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -221,7 +218,7 @@ public class Arvore extends javax.swing.JFrame {
                         .addComponent(txtNome1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(66, 66, 66)
                         .addComponent(cbSex1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                         .addComponent(cbParent, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -234,7 +231,7 @@ public class Arvore extends javax.swing.JFrame {
                         .addComponent(txtNome2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(66, 66, 66)
                         .addComponent(cbSex2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                         .addComponent(btnSalvar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -269,7 +266,7 @@ public class Arvore extends javax.swing.JFrame {
 
         jTArvore.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID FAMILIA", "NOME", "SEXO", "GRAU", "NOME", "SEXO"
@@ -290,7 +287,17 @@ public class Arvore extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTArvore.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(jTArvore);
+
+        jButton1.setText("EXCLUIR LINHA");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("ATUALIZAR LINHA");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -300,33 +307,33 @@ public class Arvore extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnVoltar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1048, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                                .addComponent(btnExit))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton3)))
+                        .addComponent(btnVoltar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExit)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(35, 35, 35))))
+                        .addGap(35, 35, 35))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 832, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnExit)
-                        .addComponent(btnVoltar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 580, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExit)
+                    .addComponent(btnVoltar)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 534, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -358,7 +365,28 @@ public class Arvore extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         SaveBD();
+        JTable();
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        if (jTArvore.getSelectedRow() != -1) {
+
+            ArvoreForm form = new ArvoreForm();
+            ArvoreDAO dao = new ArvoreDAO();
+            
+            form.setIdarvore((int) jTArvore.getValueAt(jTArvore.getSelectedRow(),0));
+            System.out.println("O ID DO OBJETO SELECIONADO É" + form.getIdarvore());
+            dao.delete(form);
+            
+            JTable();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um produto para excluir.");
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -402,7 +430,8 @@ public class Arvore extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbParent;
     private javax.swing.JComboBox<String> cbSex1;
     private javax.swing.JComboBox<String> cbSex2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;

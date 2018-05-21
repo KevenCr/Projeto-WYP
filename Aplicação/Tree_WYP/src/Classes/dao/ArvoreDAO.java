@@ -183,5 +183,24 @@ public class ArvoreDAO {
         return trees;
 
     }
+    //////////////////////////////////////////////////////////////////////////// DELETANDO NOMES
+    
+        public void delete(ArvoreForm form) {
+
+        try {
+            stmt = con.prepareStatement("DELETE FROM arvore WHERE id = ?");
+            stmt.setInt(1, form.getIdarvore());
+
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir: " + ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+
+    }
+
 
 }

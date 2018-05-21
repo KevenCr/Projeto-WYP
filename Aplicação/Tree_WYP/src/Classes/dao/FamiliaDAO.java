@@ -40,21 +40,22 @@ public class FamiliaDAO {
     }
 
     ////////////////////////////////////////////////////////////////////////////  INICIALIZA COM LISTA 
-    public List<FamiliaForm> read() {
+   public List<FamiliaForm> read() {
 
-        List<FamiliaForm> family = new ArrayList<>();
-        FamiliaForm dado = new FamiliaForm();
+        List<FamiliaForm> familias = new ArrayList<>();
 
         try {
-            stmt = con.prepareStatement("SELECT familia, id_familia FROM Familia WHERE (id_login = " + getID() + ") ORDER BY id_familia DESC");
+            stmt = con.prepareStatement("SELECT * FROM Familia WHERE (id_login = "+getID()+") ORDER BY id_familia ASC");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
 
-                dado.setFamilia(rs.getString("familia"));
-                int id_familia = (rs.getInt("id_familia"));/// NECESSARIO DEFINIR QUAL ELEMENTO FOI SELECIONADO
-                family.add(dado);
+                FamiliaForm familia = new FamiliaForm();
 
+                familia.setFamilia(rs.getString("familia"));
+                int id_familia = (rs.getInt("id_familia"));
+                familia.setId_familia(id_familia);
+                familias.add(familia);
             }
 
         } catch (SQLException ex) {
@@ -63,24 +64,28 @@ public class FamiliaDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
 
-        return family;
+        return familias;
 
     }
+
     /////////////////////////////////////////////////////////////////////////////  BUSCA VALOR ORDENADO 
 
     public List<FamiliaForm> readForDesc(String fam) {
 
         List<FamiliaForm> family = new ArrayList<>();
         FamiliaForm dado = new FamiliaForm();
+        System.out.println("Nome buscado " + fam);
+        System.out.println("ID BUSCADO " + getID());
+        String sql = ("SELECT * FROM familia WHERE (id_login = "+getID()+") AND (familia = "+fam+") ORDER BY id_familia ASC");
 
         try {
-            stmt = con.prepareStatement("SELECT familia FROM Familia WHERE id_login = (" + getID() + ") AND familia = (" + fam + ")");
-
-            rs = stmt.executeQuery();
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
 
                 dado.setFamilia(rs.getString("familia"));
+                dado.setId_familia(rs.getInt("id_familia"));
 
                 family.add(dado);
             }
@@ -131,7 +136,7 @@ public class FamiliaDAO {
 
             JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir: " + ex);
+            JOptionPane.showMessageDialog(null, "Constam depenpendências nesse nome\n Proibido a exclusão");
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }

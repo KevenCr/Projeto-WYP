@@ -23,8 +23,6 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
-        DefaultTableModel modelo = (DefaultTableModel) jTFamilia.getModel();
-        jTFamilia.setRowSorter(new TableRowSorter(modelo));
         readJTable();
     }
 
@@ -46,12 +44,14 @@ public class Menu extends javax.swing.JFrame {
 
         DefaultTableModel modelo = (DefaultTableModel) jTFamilia.getModel();
         modelo.setNumRows(0);
-        FamiliaDAO pdao = new FamiliaDAO();
+        FamiliaDAO dao = new FamiliaDAO();
 
-        for (FamiliaForm p : pdao.read()) {
+        for (FamiliaForm f : dao.read()) {
 
             modelo.addRow(new Object[]{
-                p.getFamilia(),});
+                f.getFamilia(),
+                f.getId_familia(),
+            });
 
         }
     }
@@ -61,12 +61,14 @@ public class Menu extends javax.swing.JFrame {
 
         DefaultTableModel modelo = (DefaultTableModel) jTFamilia.getModel();
         modelo.setNumRows(0);
-        FamiliaDAO pdao = new FamiliaDAO();
+        FamiliaDAO dao = new FamiliaDAO();
 
-        for (FamiliaForm p : pdao.readForDesc(fam)) {
+        for (FamiliaForm f : dao.readForDesc(fam)) {
 
             modelo.addRow(new Object[]{
-                p.getFamilia(),});
+                f.getFamilia(),
+                f.getId_familia(),
+            });
 
         }
 
@@ -193,9 +195,9 @@ public class Menu extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
                         .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
@@ -207,6 +209,7 @@ public class Menu extends javax.swing.JFrame {
                         .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(80, 80, 80))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSobre, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -237,19 +240,20 @@ public class Menu extends javax.swing.JFrame {
         );
 
         jTFamilia.setBackground(new java.awt.Color(204, 204, 255));
+        jTFamilia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jTFamilia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Família"
+                "Família", "ID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class
+                java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -260,6 +264,7 @@ public class Menu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTFamilia.setSelectionBackground(new java.awt.Color(153, 153, 255));
         jScrollPane1.setViewportView(jTFamilia);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);

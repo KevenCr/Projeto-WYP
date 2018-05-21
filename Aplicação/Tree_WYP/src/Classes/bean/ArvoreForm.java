@@ -14,7 +14,16 @@ public class ArvoreForm {
     private static int idfamilia;
     private static int idnome;
     private static int idgrau;
+    private static int idarvore;
 
+    public static int getIdarvore() {
+        return idarvore;
+    }
+
+    public static void setIdarvore(int idarvore) {
+        ArvoreForm.idarvore = idarvore;
+    }
+    
     public static int getIdfamilia() {
         return idfamilia;
     }
